@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 성향 탐색 테스트 🌱</title>
+  <!-- 부드럽고 가독성 좋은 '고운돋움' 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --primary-soft: #EFF6FF;
+      --accent: #F59E0B;
+      --text-title: #1E293B;
+      --text-body: #475569;
+      --bg-gradient: linear-gradient(145deg, #F0FDF4 0%, #EFF6FF 50%, #FAF5FF 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Gowun Dodum', 'Noto Sans KR', sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--text-title);
+    }
+
+    .container {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 460px;
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+      border: 2px solid #E2E8F0;
+      padding: 34px 24px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    /* 1. 시작 화면 */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FEF3C7;
+      color: #B45309;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-title);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    p.subtitle {
+      font-size: 15.5px;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      border-radius: 16px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background-color: #2563EB;
+      transform: translateY(-2px);
+    }
+
+    /* 2. 퀴즈 화면 */
+    .quiz-screen {
+      display: none;
+      text-align: left;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .progress-bar-bg {
+      background-color: #E2E8F0;
+      border-radius: 10px;
+      height: 9px;
+      width: 100%;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #60A5FA 0%, #3B82F6 100%);
+      height: 100%;
+      width: 12.5%;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .question-box {
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 22px;
+      color: #0F172A;
+      min-height: 55px;
+    }
+
+    .choice-card {
+      background-color: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 16px 18px;
+      width: 100%;
+      font-size: 16px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text-title);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+
+    .choice-card:hover {
+      background-color: var(--primary-soft);
+      border-color: #93C5FD;
+      transform: translateY(-2px);
+    }
+
+    .choice-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    /* 3. 결과 화면 */
+    .result-screen {
+      display: none;
+    }
+
+    .result-icon {
+      font-size: 54px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .result-badge {
+      display: inline-block;
+      background-color: #EFF6FF;
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      border: 1px solid #BFDBFE;
+    }
+
+    .result-title {
+      font-size: 23px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 20px;
+    }
+
+    .result-info-box {
+      background: #F8FAFC;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-body);
+    }
+
+    .info-item strong {
+      color: #0F172A;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. 시작 화면 -->
+    <div id="startScreen">
+      <div class="hero-badge">🌱 3분 성향 체크</div>
+      <h1>나의 성향 스타일 알아보기</h1>
+      <p class="subtitle">평소 내가 좋아하는 것과 편안한 방식을 알아보는<br>8가지 질문입니다. 솔직하게 골라보세요!</p>
+      <button class="btn-primary" onclick="startQuiz()">테스트 시작하기 🚀</button>
+    </div>
+
+    <!-- 2. 퀴즈 화면 -->
+    <div id="quizScreen" class="quiz-screen">
+      <div class="progress-info">
+        <span>질문 진행도</span>
+        <span id="progressText">1 / 8</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressBar" class="progress-bar-fill"></div>
+      </div>
+      <div id="questionText" class="question-box">질문이 표시됩니다.</div>
+      
+      <button class="choice-card" onclick="selectAnswer('A')">
+        <span class="choice-icon" id="iconA">🏃</span>
+        <span id="textA">선택지 A</span>
+      </button>
+
+      <button class="choice-card" onclick="selectAnswer('B')">
+        <span class="choice-icon" id="iconB">🧸</span>
+        <span id="textB">선택지 B</span>
+      </button>
+    </div>
+
+    <!-- 3. 결과 화면 -->
+    <div id="resultScreen" class="result-screen">
+      <div class="result-icon" id="resultIcon">💡</div>
+      <div class="result-badge" id="mbtiCode">ENFP</div>
+      <h2 class="result-title" id="resultTitle">성향 이름</h2>
+      
+      <div class="result-info-box">
+        <div class="info-item">
+          <span>🌟</span>
+          <div><strong>나의 장점:</strong> <span id="resCharm">장점 설명</span></div>
+        </div>
+        <div class="info-item">
+          <span>💡</span>
+          <div><strong>어울리는 스타일:</strong> <span id="resStyle">스타일 설명</span></div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="restartQuiz()">다시 테스트하기 🔄</button>
+    </div>
+
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "주말이나 쉬는 시간에 어떤 놀이를 더 좋아하나요?",
+        iconA: "🏃", textA: "여러 친구들과 밖에서 신나게 어울려 놀기",
+        iconB: "🧩", textB: "방에서 내가 좋아하는 것에 푹 빠져 놀기",
+        valA: "E", valB: "I"
+      },
+      {
+        q: "책을 읽거나 영상을 볼 때 더 흥미로운 이야기는?",
+        iconA: "🔍", textA: "실제로 겪을 법한 현실적이고 생생한 이야기",
+        iconB: "🚀", textB: "마법이나 우주처럼 상상력이 넘치는 이야기",
+        valA: "S", valB: "N"
+      },
+      {
+        q: "친구가 고민이나 실수를 털어놓을 때 나는?",
+        iconA: "💡", textA: "“어떻게 해결할까?” 방법을 먼저 찾는다.",
+        iconB: "💛", textB: "“진짜 속상했겠다” 마음을 먼저 위로해준다.",
+        valA: "T", valB: "F"
+      },
+      {
+        q: "내일 필요한 준비물이나 챙겨야 할 물건이 있을 때!",
+        iconA: "🎒", textA: "전날 밤에 미리 가방에 챙겨두어야 편하다.",
+        iconB: "⏰", textB: "내일 아침 출발하기 전에 챙겨도 충분하다.",
+        valA: "J", valB: "P"
+      },
+      {
+        q: "새로운 친구들이 많은 모임에 갔을 때 나는?",
+        iconA: "👋", textA: "내가 먼저 웃으면서 다가가 인사를 건넨다.",
+        iconB: "👀", textB: "친구가 먼저 다가와 줄 때까지 지켜본다.",
+        valA: "E", valB: "I"
+      },
+      {
+        q: "자유롭게 만들기를 하거나 그림을 그릴 때!",
+        iconA: "🎨", textA: "눈앞의 사물을 관찰하며 똑같이 만들기",
+        iconB: "✨", textB: "머릿속에 떠오른 기발한 생각을 자유롭게 만들기",
+        valA: "S", valB: "N"
+      },
+      {
+        q: "팀으로 게임을 하거나 놀이를 할 때 더 중요한 것은?",
+        iconA: "🏆", textA: "규칙을 잘 지키며 승리할 전략을 세우는 것",
+        iconB: "🤝", textB: "친구들과 다투지 않고 다 같이 즐겁게 노는 것",
+        valA: "T", valB: "F"
+      },
+      {
+        q: "숙제나 해야 할 일이 있을 때 나의 스타일은?",
+        iconA: "📋", textA: "순서를 정해두고 계획대로 차근차근 끝낸다.",
+        iconB: "🎲", textB: "그때그때 재미있어 보이는 것부터 먼저 한다.",
+        valA: "J", valB: "P"
+      }
+    ];
+
+    const results = {
+      "ESTJ": { title: "성실하고 든든한 리더", icon: "📋", charm: "책임감이 강하고 약속과 규칙을 철저하게 지켜요.", style: "친구들을 멋지게 이끌고 역할을 정리할 때 빛나요." },
+      "ESTP": { title: "에너지 넘치는 만능 활동가", icon: "⚡", charm: "순발력이 뛰어나고 새로운 도전을 두려워하지 않아요.", style: "몸을 움직이고 신나게 체험하는 활동에 강해요." },
+      "ESFJ": { title: "친절하고 다정한 분위기 메이커", icon: "🤝", charm: "친구들을 따뜻하게 챙겨주고 주변을 배려해요.", style: "다 함께 모여서 사이좋게 협동할 때 큰 기쁨을 느껴요." },
+      "ESFP": { title: "밝고 유쾌한 비타민", icon: "🎉", charm: "언제나 밝은 미소와 긍정적인 생각으로 주변을 웃게 해요.", style: "다 같이 즐길 수 있는 신나는 놀이를 만들 때 최고예요." },
+      "ENTJ": { title: "목표를 이루는 멋진 전략가", icon: "🚩", charm: "자신감이 넘치고 어려운 일도 씩씩하게 도전해요.", style: "계획을 똑 부러지게 세워서 멋지게 달성해 내요." },
+      "ENTP": { title: "호기심 많은 아이디어 뱅크", icon: "💡", charm: "새로운 생각과 기발한 호기심이 끊이지 않아요.", style: "남들과 다른 신선한 방법으로 문제를 해결해요." },
+      "ENFJ": { title: "마음 따뜻한 조율사", icon: "🌱", charm: "친구들의 감정을 깊이 이해하고 따뜻하게 격려해요.", style: "친구들 사이에서 화합과 좋은 분위기를 이끌어내요." },
+      "ENFP": { title: "창의력 넘치는 열정가", icon: "✨", charm: "상상력이 풍부하고 매일 새로운 놀이를 찾아내요.", style: "사람들에게 밝고 긍정적인 에너지를 가득 불어넣어요." },
+      "ISTJ": { title: "바르고 꼼꼼한 모범생", icon: "📘", charm: "자신이 맡은 일은 끝까지 정성스럽게 완수해요.", style: "정리정돈을 잘하고 믿음직스럽게 역할을 해내요." },
+      "ISTP": { title: "손재주가 뛰어난 해결사", icon: "🛠️", charm: "블록이나 도구를 다루는 관찰력과 손재주가 남달라요.", style: "필요한 순간에 침착하게 실력을 발휘해 문제를 풀어요." },
+      "ISFJ": { title: "따뜻하고 성실한 수호자", icon: "🕊️", charm: "조용히 친구들을 배려하고 묵묵하게 도움을 줘요.", style: "주변 사람들을 편안하고 안전하게 지켜주는 역할을 해요." },
+      "ISFP": { title: "다정하고 감각적인 아티스트", icon: "🎨", charm: "음악, 미술 등 아름다운 감각을 표현하는 재능이 있어요.", style: "온화하고 다정한 마음으로 친구들과 평화롭게 지내요." },
+      "INTJ": { title: "생각이 깊은 탐구자", icon: "♟️", charm: "차분하게 생각하고 혼자만의 시간에 깊이 몰입해요.", style: "지혜로운 생각으로 똑똑하고 논리적인 답을 찾아내요." },
+      "INTP": { title: "원리를 찾는 꼬마 과학자", icon: "🔍", charm: "사물의 원리를 탐구하고 ‘왜 그럴까?’를 깊이 생각해요.", style: "독창적인 시선으로 새로운 발견을 해낼 때 신나요." },
+      "INFJ": { title: "속 깊고 따뜻한 친구", icon: "🌙", charm: "말하지 않아도 친구의 마음을 잘 알아채는 따뜻함이 있어요.", style: "자신만의 바른 생각과 꿈을 소중하게 키워나가요." },
+      "INFP": { title: "꿈이 많은 감성 이야기꾼", icon: "📖", charm: "풍부한 상상력과 순수한 마음을 간직하고 있어요.", style: "자신만의 멋진 생각과 이야기를 자유롭게 펼칠 때 행복해요." }
+    };
+
+    let currentIndex = 0;
+    let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+
+    function startQuiz() {
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('quizScreen').style.display = 'block';
+      currentIndex = 0;
+      scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById('progressText').innerText = `${currentIndex + 1} / ${questions.length}`;
+      document.getElementById('questionText').innerText = `Q${currentIndex + 1}. ${q.q}`;
+      document.getElementById('iconA').innerText = q.iconA;
+      document.getElementById('textA').innerText = q.textA;
+      document.getElementById('iconB').innerText = q.iconB;
+      document.getElementById('textB').innerText = q.textB;
+
+      const progress = ((currentIndex + 1) / questions.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function selectAnswer(choice) {
+      const q = questions[currentIndex];
+      const selectedVal = choice === 'A' ? q.valA : q.valB;
+      scores[selectedVal]++;
+
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('resultScreen').style.display = 'block';
+
+      const mbti = 
+        (scores.E >= scores.I ? 'E' : 'I') +
+        (scores.S >= scores.N ? 'S' : 'N') +
+        (scores.T >= scores.F ? 'T' : 'F') +
+        (scores.J >= scores.P ? 'J' : 'P');
+
+      const res = results[mbti] || results["ESTJ"];
+
+      document.getElementById('mbtiCode').innerText = mbti;
+      document.getElementById('resultIcon').innerText = res.icon;
+      document.getElementById('resultTitle').innerText = res.title;
+      document.getElementById('resCharm').innerText = res.charm;
+      document.getElementById('resStyle').innerText = res.style;
+    }
+
+    function restartQuiz() {
+      document.getElementById('resultScreen').style.display = 'none';
+      document.getElementById('startScreen').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
